@@ -42,7 +42,11 @@ function docker_helpers_export_commands() {
         fi
 cat << EOF > "$wrapper"
 #!/bin/bash
-exec docker run --rm --pid=host -e DISPLAY=\$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro -v "\$PWD":/host --workdir /host --entrypoint="" "$image" "$command" "\$@"
+exec docker run --rm --pid=host \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:ro -e DISPLAY=\$DISPLAY \
+    -v "\$PWD":/host --workdir /host \
+    -v /tmp:/tmp \
+    --entrypoint="" "$image" "$command" "\$@"
 EOF
     chmod +x "$wrapper"
     done
