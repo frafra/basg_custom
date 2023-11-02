@@ -1,12 +1,4 @@
-function docker_helpers_rm_volume() {
-  if [[ $# -gt 0 ]]
-  then
-    dir="$(realpath $1)"
-    name="$(basename $dir)"
-    docker run --rm -v "$dir/..:/host_parent" busybox rm -rf "/host_parent/$name"
-    shift
-  fi
-}
+alias docker_helpers_rm_volume="rootlesskit rm -rf"
 
 function docker_helpers_kill_by_name() {
   if [[ $# -gt 0 ]]
