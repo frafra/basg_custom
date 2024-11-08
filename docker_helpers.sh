@@ -8,11 +8,9 @@ function docker_helpers_kill_by_name() {
   fi
 }
 
-function docker_helpers_exec_remote() {
-  server="$1"
-  shift
-  ssh "$server" "docker container ls --format '{{.Names}}'" 2>/dev/null | fzf | xargs -I% ssh -tt "$server" "docker exec -ti % $@"
-} # stdin is broken
+# https://docs.docker.com/engine/security/protect-access/
+#PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}($(docker context show))\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
 # example: docker_helpers_export_commands ghcr.io/osgeo/gdal
 function docker_helpers_export_commands() {
